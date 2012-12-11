@@ -1,19 +1,19 @@
 %define upstream_name    IO-Socket-Telnet
 %define upstream_version 0.04
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary:    Transparent telnet negotiation for IO::Socket::INET
-License:    GPL+ or Artistic
-Group:      Development/Perl
-Url:        http://search.cpan.org/dist/%{upstream_name}
-Source0:    http://www.cpan.org/modules/by-module/IO/%{upstream_name}-%{upstream_version}.tar.gz
+Summary:	Transparent telnet negotiation for IO::Socket::INET
+License:	GPL+ or Artistic
+Group:		Development/Perl
+Url:		http://search.cpan.org/dist/%{upstream_name}
+Source0:	http://www.cpan.org/modules/by-module/IO/%{upstream_name}-%{upstream_version}.tar.gz
 
-BuildRequires: perl(ExtUtils::MakeMaker)
-BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires:	perl-devel
+BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildArch:	noarch
 
 %description
 Telnet is a simple protocol that sits on top of TCP/IP. It handles the
@@ -32,24 +32,27 @@ out telnet escape sequences.
 %setup -q -n %{upstream_name}-%{upstream_version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-
+perl Makefile.PL INSTALLDIRS=vendor
 %make
 
 %check
 %make test
 
 %install
-rm -rf %buildroot
 %makeinstall_std
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root)
 %doc Changes META.yml README
 %{_mandir}/man3/*
-%perl_vendorlib/*
+%{perl_vendorlib}/*
 
+
+%changelog
+* Sat Apr 23 2011 Funda Wang <fwang@mandriva.org> 0.40.0-2mdv2011.0
++ Revision: 657782
+- rebuild for updated spec-helper
+
+* Sun Oct 03 2010 Shlomi Fish <shlomif@mandriva.org> 0.40.0-1mdv2011.0
++ Revision: 582694
+- import perl-IO-Socket-Telnet
 
